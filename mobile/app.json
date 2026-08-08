@@ -1,0 +1,51 @@
+{
+  "expo": {
+    "name": "Zora",
+    "slug": "zora-collectibles",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "backgroundColor": "#0F172A"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.zora.collectibles",
+      "infoPlist": {
+        "NSCameraUsageDescription": "Zora uses the camera to scan and identify your collectibles.",
+        "NSPhotoLibraryUsageDescription": "Zora needs photo library access so you can attach existing photos to items."
+      }
+    },
+    "android": {
+      "package": "com.zora.collectibles",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#0F172A"
+      },
+      "permissions": [
+        "CAMERA",
+        "READ_MEDIA_IMAGES",
+        "POST_NOTIFICATIONS"
+      ]
+    },
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Zora uses the camera to scan and identify your collectibles."
+        }
+      ],
+      [
+        "expo-sqlite"
+      ],
+      "expo-asset",
+      "expo-font",
+      "expo-notifications"
+    ],
+    "extra": {}
+  }
+}
