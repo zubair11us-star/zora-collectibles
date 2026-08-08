@@ -95,16 +95,15 @@ In [Play Console](https://play.google.com/console/) → **Create app**:
 
 ## 7. Privacy policy
 
-Play Console requires a **publicly hosted URL** for your privacy policy —
-a local file in this repo isn't enough. The content is already written at
-[`docs/PRIVACY_POLICY.md`](PRIVACY_POLICY.md); host it somewhere public,
-for example:
+Play Console requires a **publicly hosted URL** for your privacy policy.
+This is already live via GitHub Pages, serving straight from
+[`docs/PRIVACY_POLICY.md`](PRIVACY_POLICY.md):
 
-- GitHub Pages (free, if you push this repo to GitHub)
-- A gist rendered via a Markdown-to-HTML viewer
-- Any static hosting you already use
+**https://zubair11us-star.github.io/zora-collectibles/PRIVACY_POLICY.html**
 
-Paste that URL into Play Console → **App content → Privacy policy**.
+Paste that URL into Play Console → **App content → Privacy policy**. If you
+ever edit `PRIVACY_POLICY.md`, just `git push` — Pages rebuilds
+automatically in a minute or two and the same URL stays valid.
 
 ## 8. App content questionnaires
 
