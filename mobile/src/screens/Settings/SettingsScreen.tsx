@@ -165,7 +165,7 @@ export function SettingsScreen() {
 
         <View style={{ marginTop: spacing.xxl }}>
           <Text style={[typography.caption, { color: colors.textMuted }]}>
-            Zora — local-first collection management with optional cloud sync, backup, and notifications.
+            Zura — local-first collection management with optional cloud sync, backup, and notifications.
           </Text>
         </View>
       </ScrollView>

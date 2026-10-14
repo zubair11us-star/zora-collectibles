@@ -15,7 +15,7 @@ export interface ReceiptOcrResult {
   rawText: string;
 }
 
-const RECEIPT_PROMPT = `You are a receipt OCR assistant embedded in a personal collectibles inventory app called Zora. You will be shown a photo of a purchase receipt. Extract the following as strict JSON, with no markdown fences and no commentary:
+const RECEIPT_PROMPT = `You are a receipt OCR assistant embedded in a personal collectibles inventory app called Zura. You will be shown a photo of a purchase receipt. Extract the following as strict JSON, with no markdown fences and no commentary:
 
 {
   "store": "<store/seller name, or null>",

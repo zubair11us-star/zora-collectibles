@@ -14,7 +14,7 @@ export function buildIdentificationPrompt(categoryHint: CategoryKey | undefined,
     ? `The user has told you this item's category is "${categoryHint}" (${CATEGORY_NAMES[categoryHint]}). ${CATEGORY_HINTS[categoryHint]}\nExtract these category-specific fields in addition to the common fields: ${CATEGORY_FIELD_KEYS[categoryHint].join(", ") || "(none)"}.`
     : `The user did not specify a category. First determine the best-fitting category from this list: ${categoryList}. Then extract the category-specific fields for whichever category you chose, using the same field key names used elsewhere in this system (issuingAuthority/signature/noteNumber for currency; mintMark/metal/diameterMm/weightGrams/edgeType/obverseInfo/reverseInfo for coins; setSymbol/cardType/rarity/language/hp/illustrator/edition/holoType/specialVariant/gradingInfo for pokemon; toyNumber/casting/color/variation/wheelType/packagingStatus for hotwheels; sport/player/rarity/gradingInfo for tradingcards; issue/perforation for stamps; material/packagingStatus for toys; scale/casting for diecast; movement/caseMaterial/referenceNumber for watches; awardingBody/material for medals; origin for souvenirs).`;
 
-  return `You are a collectibles identification assistant embedded in a personal inventory app called Zora. You will be shown ${imageCount} photo(s) of a single physical collectible item (front${imageCount > 1 ? " and back" : ""}).
+  return `You are a collectibles identification assistant embedded in a personal inventory app called Zura. You will be shown ${imageCount} photo(s) of a single physical collectible item (front${imageCount > 1 ? " and back" : ""}).
 
 ${categorySection}
 

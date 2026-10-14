@@ -1,4 +1,4 @@
-# Zora — Entity Relationship Diagram
+# Zura — Entity Relationship Diagram
 
 Matches `mobile/src/db/schema.ts` exactly. Tables marked *(schema only)* exist
 in the database but have no dedicated UI yet in Phase 1.

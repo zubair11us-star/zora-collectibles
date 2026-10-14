@@ -104,7 +104,7 @@ export function ReceiptScanScreen() {
     <SafeAreaView style={[styles.flex, { backgroundColor: colors.background }]} edges={["bottom"]}>
       <ScrollView contentContainerStyle={styles.content}>
         <Text style={[typography.body, { color: colors.textSecondary, marginBottom: spacing.lg }]}>
-          Photograph or choose a receipt. Zora will extract the store, date, and price for you to review — nothing
+          Photograph or choose a receipt. Zura will extract the store, date, and price for you to review — nothing
           is saved until you confirm.
         </Text>
 

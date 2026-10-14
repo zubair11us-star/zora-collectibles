@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Zora",
+    "name": "Zura",
     "slug": "zora-collectibles",
     "version": "0.1.0",
     "orientation": "portrait",
@@ -16,8 +16,8 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.zora.collectibles",
       "infoPlist": {
-        "NSCameraUsageDescription": "Zora uses the camera to scan and identify your collectibles.",
-        "NSPhotoLibraryUsageDescription": "Zora needs photo library access so you can attach existing photos to items."
+        "NSCameraUsageDescription": "Zura uses the camera to scan and identify your collectibles.",
+        "NSPhotoLibraryUsageDescription": "Zura needs photo library access so you can attach existing photos to items."
       }
     },
     "android": {
@@ -38,7 +38,7 @@
       [
         "expo-camera",
         {
-          "cameraPermission": "Zora uses the camera to scan and identify your collectibles."
+          "cameraPermission": "Zura uses the camera to scan and identify your collectibles."
         }
       ],
       [

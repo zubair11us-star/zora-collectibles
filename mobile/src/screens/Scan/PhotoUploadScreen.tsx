@@ -59,7 +59,7 @@ export function PhotoUploadScreen() {
     <SafeAreaView style={[styles.flex, { backgroundColor: colors.background }]}>
       <ScrollView contentContainerStyle={styles.content}>
         <Text style={[typography.body, { color: colors.textSecondary, marginBottom: spacing.lg }]}>
-          Choose an existing photo of your collectible from your gallery. Zora will attempt to identify it just like
+          Choose an existing photo of your collectible from your gallery. Zura will attempt to identify it just like
           a live camera scan.
         </Text>
 

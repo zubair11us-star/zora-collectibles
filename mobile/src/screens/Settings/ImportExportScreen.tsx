@@ -137,7 +137,7 @@ export function ImportExportScreen() {
         {picked && picked.isCsv && picked.csvHeaders && (
           <View style={[styles.card, { backgroundColor: colors.surface, borderColor: colors.border, marginTop: spacing.md }]}>
             <Text style={{ color: colors.textPrimary, marginBottom: spacing.md }}>
-              {picked.fileName}: {picked.csvRows?.length ?? 0} row(s). Map each column to a Zora field:
+              {picked.fileName}: {picked.csvRows?.length ?? 0} row(s). Map each column to a Zura field:
             </Text>
             {picked.csvHeaders.map((header) => (
               <SelectField

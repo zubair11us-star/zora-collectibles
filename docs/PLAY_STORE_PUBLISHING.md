@@ -1,4 +1,4 @@
-# Publishing Zora to the Google Play Store
+# Publishing Zura to the Google Play Store
 
 Everything here is a step you run/do yourself — account creation, payments,
 and store submissions aren't things I can do on your behalf. This is the
@@ -73,7 +73,7 @@ unless you already have one — follow its prompts.
 
 In [Play Console](https://play.google.com/console/) → **Create app**:
 
-- App name: `Zora` (or your preferred store name)
+- App name: `Zura` (or your preferred store name)
 - Default language, App/Game: App, Free/Paid: your choice
 - Declarations: accept the developer program policies and US export laws
 
@@ -108,7 +108,7 @@ automatically in a minute or two and the same URL stays valid.
 ## 8. App content questionnaires
 
 Under **Policy → App content** in Play Console, you'll fill out several
-forms yourself. Based on what Zora actually does:
+forms yourself. Based on what Zura actually does:
 
 - **Data safety form** — data collected/shared, matching
   `PRIVACY_POLICY.md`:
@@ -123,10 +123,10 @@ forms yourself. Based on what Zora actually does:
   - No advertising ID, no analytics/tracking SDKs — answer "No" to ad/
     analytics data collection.
 - **Content rating questionnaire**: no violence, no user-generated content
-  shared publicly, no gambling — this should land Zora at "Everyone."
+  shared publicly, no gambling — this should land Zura at "Everyone."
 - **Target audience**: general audience, not primarily for children.
 - **Ads**: No (the app has none).
-- **Government app / COVID app / financial features**: No to all — Zora
+- **Government app / COVID app / financial features**: No to all — Zura
   tracks personal purchase/value records, it doesn't provide financial
   services or advice.
 

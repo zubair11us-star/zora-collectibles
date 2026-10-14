@@ -1,8 +1,8 @@
-# Zora — Architecture (Phase 1)
+# Zura — Architecture (Phase 1)
 
 ## Overview
 
-Zora is a personal collectibles inventory app. Phase 1 is **local-first**:
+Zura is a personal collectibles inventory app. Phase 1 is **local-first**:
 everything except AI photo identification works fully offline, on-device.
 
 ```

@@ -1,4 +1,4 @@
--- Zora Phase 3 — Supabase (Postgres) schema.
+-- Zura Phase 3 — Supabase (Postgres) schema.
 --
 -- Mirrors mobile/src/db/schema.ts + migrations.ts. Row ids are the same
 -- client-generated nanoids used locally (not gen_random_uuid()), so a

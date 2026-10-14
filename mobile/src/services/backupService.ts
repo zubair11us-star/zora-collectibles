@@ -53,7 +53,7 @@ export async function exportBackup(): Promise<string> {
   file.write(JSON.stringify(backup, null, 2));
 
   if (await Sharing.isAvailableAsync()) {
-    await Sharing.shareAsync(file.uri, { mimeType: "application/json", dialogTitle: "Save Zora backup" });
+    await Sharing.shareAsync(file.uri, { mimeType: "application/json", dialogTitle: "Save Zura backup" });
   }
 
   return file.uri;
@@ -76,7 +76,7 @@ export async function pickAndRestoreBackup(): Promise<RestoreResult> {
     const file = new File(picked.assets[0].uri);
     const text = await file.text();
     const backup = JSON.parse(text) as BackupData;
-    if (!backup?.tables) throw new Error("This doesn't look like a Zora backup file.");
+    if (!backup?.tables) throw new Error("This doesn't look like a Zura backup file.");
 
     return await restoreBackup(backup);
   } catch (err) {

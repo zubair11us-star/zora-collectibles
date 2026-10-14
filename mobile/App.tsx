@@ -58,7 +58,7 @@ export default function App() {
     return (
       <GestureHandlerRootView style={styles.flexFill}>
         <View style={styles.center}>
-          <Text style={styles.errorTitle}>Zora failed to start</Text>
+          <Text style={styles.errorTitle}>Zura failed to start</Text>
           <Text style={styles.errorBody}>{error}</Text>
         </View>
       </GestureHandlerRootView>

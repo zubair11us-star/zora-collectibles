@@ -28,7 +28,7 @@ export async function enableReminders(): Promise<void> {
 
   if (Platform.OS === "android") {
     await Notifications.setNotificationChannelAsync("default", {
-      name: "Zora reminders",
+      name: "Zura reminders",
       importance: Notifications.AndroidImportance.DEFAULT,
     });
   }
@@ -40,7 +40,7 @@ export async function enableReminders(): Promise<void> {
     identifier: BACKUP_REMINDER_ID,
     content: {
       title: "Back up your collection",
-      body: "It's been a while — open Zora → Settings → Backup Now to protect your collection.",
+      body: "It's been a while — open Zura → Settings → Backup Now to protect your collection.",
     },
     trigger: {
       type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL,
@@ -72,7 +72,7 @@ export async function sendTestNotification(): Promise<void> {
   const granted = await requestNotificationPermission();
   if (!granted) throw new Error("Notification permission was not granted.");
   await Notifications.scheduleNotificationAsync({
-    content: { title: "Zora", body: "Notifications are working." },
+    content: { title: "Zura", body: "Notifications are working." },
     trigger: null,
   });
 }

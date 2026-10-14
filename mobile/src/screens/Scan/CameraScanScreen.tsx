@@ -43,7 +43,7 @@ export function CameraScanScreen() {
     return (
       <SafeAreaView style={[styles.flex, styles.center, { backgroundColor: colors.background }]}>
         <Text style={[typography.subtitle, { color: colors.textPrimary, textAlign: "center", marginBottom: spacing.md }]}>
-          Zora needs camera access to scan your collectibles.
+          Zura needs camera access to scan your collectibles.
         </Text>
         <Button label="Grant Camera Access" onPress={requestPermission} />
       </SafeAreaView>

@@ -18,7 +18,7 @@ type Nav = NativeStackNavigationProp<RootStackParamList>;
 type IoniconName = ComponentProps<typeof Ionicons>["name"];
 
 const OPTIONS: { icon: IoniconName; title: string; subtitle: string; key: string }[] = [
-  { key: "ai", icon: "camera-outline", title: "AI Camera Scan", subtitle: "Photograph the item — Zora identifies it for you" },
+  { key: "ai", icon: "camera-outline", title: "AI Camera Scan", subtitle: "Photograph the item — Zura identifies it for you" },
   { key: "barcode", icon: "barcode-outline", title: "Barcode Scan", subtitle: "EAN, UPC, Code 128" },
   { key: "qr", icon: "qr-code-outline", title: "QR Code Scan", subtitle: "Scan a QR label" },
   { key: "upload", icon: "image-outline", title: "Upload Existing Photo", subtitle: "Identify from your gallery" },

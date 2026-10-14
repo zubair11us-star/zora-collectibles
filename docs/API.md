@@ -1,4 +1,4 @@
-# Zora — API Reference
+# Zura — API Reference
 
 ## Phase 1: `server/` (AI proxy only)
 

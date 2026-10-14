@@ -34,7 +34,7 @@ export function BarcodeScanScreen() {
     return (
       <SafeAreaView style={[styles.flex, styles.center, { backgroundColor: colors.background }]}>
         <Text style={[typography.subtitle, { color: colors.textPrimary, textAlign: "center", marginBottom: spacing.md }]}>
-          Zora needs camera access to scan barcodes.
+          Zura needs camera access to scan barcodes.
         </Text>
         <Button label="Grant Camera Access" onPress={requestPermission} />
       </SafeAreaView>
@@ -131,7 +131,7 @@ export function BarcodeScanScreen() {
                     <Text style={{ color: colors.textMuted, fontSize: 12 }}>{externalMatch.brand}</Text>
                   )}
                   <Text style={{ color: colors.textMuted, fontSize: 11, marginTop: spacing.xs }}>
-                    Not verified by Zora — review before saving.
+                    Not verified by Zura — review before saving.
                   </Text>
                   <View style={{ marginTop: spacing.sm }}>
                     <Button label="Use This Info" variant="secondary" onPress={useExternalMatchName} fullWidth />

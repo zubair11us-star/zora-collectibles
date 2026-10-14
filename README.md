@@ -1,4 +1,4 @@
-# Zora — Personal Collectibles Inventory
+# Zura — Personal Collectibles Inventory
 
 Scan → Identify → Confirm → Save → Search → Manage. A local-first mobile app
 for cataloguing currency, coins, Hot Wheels, Pokémon/trading cards, stamps,
@@ -62,7 +62,7 @@ I can do on your behalf.
   selling price, minimum price, marketplace, listing date, buyer, and a
   Collection filter for for-sale items
 - **External barcode lookup**: when a scanned barcode has no local match,
-  Zora checks a free public UPC database as a best-effort suggestion —
+  Zura checks a free public UPC database as a best-effort suggestion —
   always labeled unverified, never auto-saved
 - **Receipt OCR**: photograph a receipt, Claude vision extracts store/date/
   total/line-items, review and save as a purchase transaction (or start a
@@ -153,7 +153,7 @@ Edit `server/.env` and set `ANTHROPIC_API_KEY=sk-ant-...`.
 npm run dev
 ```
 
-You should see `Zora AI proxy listening on http://0.0.0.0:4000`. Find your
+You should see `Zura AI proxy listening on http://0.0.0.0:4000`. Find your
 machine's LAN IP (e.g. `192.168.1.42`) — Windows: `ipconfig`, look for
 "IPv4 Address" under your active adapter.
 
@@ -224,7 +224,7 @@ npm run build && npm start   # production build
   development of this app). If you're on an older Expo SDK whose Metro
   predates `package.json` "exports" support, pin an older `nanoid@3.x`
   (CommonJS) instead and update that one file.
-- **Camera permission denied**: Settings app → Zora → Permissions → Camera,
+- **Camera permission denied**: Settings app → Zura → Permissions → Camera,
   or uninstall/reinstall Expo Go and accept the prompt.
 
 ## Roadmap

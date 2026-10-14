@@ -1,14 +1,14 @@
-# Zora Privacy Policy
+# Zura Privacy Policy
 
 **Last updated:** 2026-08-08
 
-This policy explains what data Zora ("the app") collects, how it's used,
-and what choices you have. Zora is built to be local-first: by default your
+This policy explains what data Zura ("the app") collects, how it's used,
+and what choices you have. Zura is built to be local-first: by default your
 collectibles data never leaves your device.
 
 ## 1. Data stored on your device
 
-Everything you enter in Zora — items, categories, photos, purchase and
+Everything you enter in Zura — items, categories, photos, purchase and
 valuation history, locations, storage boxes, transactions, wishlist entries,
 and settings — is stored locally in an on-device SQLite database and, for
 photos, the device's app-private file storage. This data is not collected
@@ -18,7 +18,7 @@ sync (section 2).
 
 ## 2. Optional account and cloud sync (Supabase)
 
-Creating an account is optional. If you sign up, Zora uses
+Creating an account is optional. If you sign up, Zura uses
 [Supabase](https://supabase.com) for authentication and to sync your
 inventory data and photos across your own devices. When cloud sync is on:
 
@@ -58,7 +58,7 @@ or personal data are sent for this lookup.
 
 ## 4. Backups and exports
 
-Zora lets you export your data (CSV, JSON, or a full backup file) to your
+Zura lets you export your data (CSV, JSON, or a full backup file) to your
 device's storage or to share via your device's normal share sheet (e.g.
 email, cloud drive, messaging apps you choose). These exports are created
 and sent entirely under your control — we have no visibility into where
@@ -94,7 +94,7 @@ None of these permissions are used to collect data in the background.
 
 ## 8. Children's privacy
 
-Zora is not directed at children under 13, and we do not knowingly collect
+Zura is not directed at children under 13, and we do not knowingly collect
 data from them.
 
 ## 9. Changes to this policy

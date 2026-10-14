@@ -25,7 +25,7 @@ app.use((err: unknown, _req: express.Request, res: express.Response, _next: expr
 
 const port = Number(process.env.PORT) || 4000;
 app.listen(port, () => {
-  console.log(`Zora AI proxy listening on http://0.0.0.0:${port}`);
+  console.log(`Zura AI proxy listening on http://0.0.0.0:${port}`);
   if (!process.env.ANTHROPIC_API_KEY) {
     console.warn("WARNING: ANTHROPIC_API_KEY is not set. /identify will fail until it's configured in .env.");
   }
