@@ -29,7 +29,9 @@
       "permissions": [
         "CAMERA",
         "READ_MEDIA_IMAGES",
-        "POST_NOTIFICATIONS"
+        "POST_NOTIFICATIONS",
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
       ]
     },
     "plugins": [
@@ -46,6 +48,11 @@
       "expo-font",
       "expo-notifications"
     ],
-    "extra": {}
+    "extra": {
+      "eas": {
+        "projectId": "263608cb-7fc4-4fde-95de-7473aa2b00ba"
+      }
+    },
+    "owner": "zubair_11us"
   }
 }

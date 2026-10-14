@@ -32,17 +32,24 @@ export default function App() {
         await initDatabase();
         await ensureDemoDataSeeded();
         setReady(true);
+      } catch (e) {
+        console.error("Failed to initialize app", e);
+        setError(e instanceof Error ? e.message : "Unknown startup error");
+        return;
+      }
 
-        // Best-effort, silent auto-sync on launch when already signed in.
-        // Errors here are not fatal to app startup — Account screen surfaces
-        // sync failures explicitly when the user taps "Sync Now" themselves.
+      // Best-effort, silent auto-sync on launch when already signed in.
+      // Deliberately outside the block above and its own try/catch — auth/
+      // sync failures (bad Supabase config, no network) must never block
+      // the app from starting. Account screen surfaces sync failures
+      // explicitly when the user taps "Sync Now" themselves.
+      try {
         await useAuthStore.getState().init();
         if (useAuthStore.getState().session) {
           syncNow().catch(() => {});
         }
       } catch (e) {
-        console.error("Failed to initialize app", e);
-        setError(e instanceof Error ? e.message : "Unknown startup error");
+        console.error("Auth init failed (non-fatal)", e);
       }
     })();
   }, []);
