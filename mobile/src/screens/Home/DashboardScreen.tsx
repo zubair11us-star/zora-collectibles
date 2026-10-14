@@ -4,9 +4,10 @@ import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Animated, { FadeInDown } from "react-native-reanimated";
+import { LinearGradient } from "expo-linear-gradient";
 
 import { useThemeMode } from "@/theme/ThemeProvider";
-import { spacing, typography } from "@/theme/typography";
+import { radius, spacing, typography } from "@/theme/typography";
 import { StatTile } from "@/components/StatTile";
 import { CategoryCard } from "@/components/CategoryCard";
 import { EmptyState } from "@/components/EmptyState";
@@ -88,12 +89,22 @@ export function DashboardScreen() {
         contentContainerStyle={styles.content}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={colors.accent} />}
       >
-        <Text style={[typography.display, { color: colors.textPrimary }]}>
-          {settings.name ? `${settings.name}'s Collection` : "Your Collection"}
-        </Text>
-        <Text style={[typography.body, { color: colors.textMuted, marginBottom: spacing.lg }]}>
-          {stats.totalItems} items • {stats.baseCurrency} base currency
-        </Text>
+        <LinearGradient
+          colors={[colors.accentAlt, colors.accent]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={styles.hero}
+        >
+          <Text style={[typography.body, { color: "rgba(255,255,255,0.85)" }]}>
+            {settings.name ? `${settings.name}'s Collection` : "Your Collection"}
+          </Text>
+          <Text style={styles.heroValue} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.6}>
+            {formatMoney(stats.estimatedCollectionValue, stats.baseCurrency)}
+          </Text>
+          <Text style={[typography.caption, { color: "rgba(255,255,255,0.75)" }]}>
+            {stats.totalItems} items • {stats.baseCurrency} base currency
+          </Text>
+        </LinearGradient>
 
         <View style={styles.statsGrid}>
           {(
@@ -304,6 +315,22 @@ const styles = StyleSheet.create({
   flex: { flex: 1 },
   center: { flex: 1, alignItems: "center", justifyContent: "center" },
   content: { padding: spacing.lg, paddingBottom: spacing.xxl * 2 },
+  hero: {
+    borderRadius: radius.xl,
+    padding: spacing.lg,
+    marginBottom: spacing.lg,
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    shadowRadius: 16,
+    shadowOffset: { width: 0, height: 8 },
+    elevation: 6,
+  },
+  heroValue: {
+    color: "#FFFFFF",
+    fontSize: 36,
+    fontWeight: "800",
+    marginVertical: 2,
+  },
   statsGrid: { flexDirection: "row", flexWrap: "wrap", gap: spacing.md },
   statTileWrap: { flexGrow: 1, minWidth: 150 },
   categoryScroll: { marginHorizontal: -spacing.lg, paddingHorizontal: spacing.lg },

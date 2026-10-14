@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
 import * as Haptics from "expo-haptics";
 import type { ComponentProps } from "react";
 
@@ -41,14 +42,14 @@ function ScanButton() {
   const { colors } = useThemeMode();
   return (
     <View style={styles.scanButtonWrap}>
-      <View
-        style={[
-          styles.scanButton,
-          { backgroundColor: colors.accent, borderColor: colors.gold, shadowColor: colors.accent },
-        ]}
+      <LinearGradient
+        colors={[colors.accentAlt, colors.accent]}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={[styles.scanButton, { borderColor: colors.gold, shadowColor: colors.accent }]}
       >
         <Ionicons name="camera" size={26} color="#FFFFFF" />
-      </View>
+      </LinearGradient>
     </View>
   );
 }
