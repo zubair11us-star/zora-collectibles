@@ -15,7 +15,7 @@ export type CategoryKey =
   | "souvenirs"
   | "other";
 
-export type IdentificationSource = "ai" | "barcode" | "external" | "manual";
+export type IdentificationSource = "ai" | "offline" | "barcode" | "external" | "manual";
 
 export type PhotoType =
   | "front"

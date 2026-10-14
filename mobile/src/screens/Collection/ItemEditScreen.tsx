@@ -351,7 +351,13 @@ export function ItemEditScreen() {
         storageBoxId: storageBoxId ?? null,
         storagePosition: storagePosition || null,
         barcode: barcode || undefined,
-        identificationSource: identification?.ok ? "ai" : isEditingExisting ? undefined : "manual",
+        identificationSource: identification?.ok
+          ? identification.source === "offline"
+            ? "offline"
+            : "ai"
+          : isEditingExisting
+          ? undefined
+          : "manual",
         aiConfidence: identification?.ok ? identification.confidence : undefined,
         notes: common.notes || undefined,
         saleStatus,

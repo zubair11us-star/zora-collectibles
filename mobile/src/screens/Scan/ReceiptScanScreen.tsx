@@ -11,6 +11,8 @@ import { Button } from "@/components/Button";
 import { SelectField, TextField } from "@/components/FormField";
 import { imageToBase64ForAI, persistCollectibleImage } from "@/services/imageService";
 import { ocrReceipt, ReceiptOcrResponse } from "@/services/receiptOcrService";
+import { recognizeTextOffline } from "@/services/offlineTextRecognitionService";
+import { parseReceiptText } from "@/services/receiptTextParser";
 import { addTransaction } from "@/db/repositories/transactionsRepo";
 import { addPhoto } from "@/db/repositories/photosRepo";
 import { SUPPORTED_CURRENCIES } from "@/types/models";
@@ -37,8 +39,16 @@ export function ReceiptScanScreen() {
     setPhotoUri(uri);
     setScanning(true);
     try {
-      const base64Jpeg = await imageToBase64ForAI(uri);
-      const response = await ocrReceipt(base64Jpeg);
+      // On-device OCR + regex parsing runs first — instant, free, fully
+      // offline. Only falls back to the cloud OCR endpoint if ML Kit
+      // couldn't read any text at all (e.g. a very blurry photo), since at
+      // that point there's nothing for the regex parser to work with.
+      const offlineText = await recognizeTextOffline(uri);
+      const response: ReceiptOcrResponse =
+        offlineText.ok && offlineText.lines.length > 0
+          ? parseReceiptText(offlineText.text, offlineText.lines)
+          : await ocrReceipt(await imageToBase64ForAI(uri));
+
       setResult(response);
       setStore(response.store ?? "");
       setDate(response.date ?? "");

@@ -15,6 +15,8 @@ import { useScanSessionStore } from "@/state/useScanSessionStore";
 import { CATEGORY_META } from "@/types/categoryFields";
 import { identifyCollectible } from "@/services/aiIdentification";
 import { imageToBase64ForAI } from "@/services/imageService";
+import { recognizeTextOffline } from "@/services/offlineTextRecognitionService";
+import { buildOfflineIdentification } from "@/services/collectibleTextParser";
 
 type Nav = NativeStackNavigationProp<RootStackParamList>;
 type CameraRoute = RouteProp<RootStackParamList, "CameraScan">;
@@ -60,13 +62,30 @@ export function CameraScanScreen() {
   const runIdentification = async () => {
     setAnalyzing(true);
     try {
+      // On-device OCR runs first and always — it's instant, free, and fully
+      // offline. The front photo is the most likely to carry identifying
+      // text (card numbers, denominations, serials).
+      const front = scanSession.captures.find((c) => c.side === "front") ?? scanSession.captures[0];
+      const offlineText = front ? await recognizeTextOffline(front.uri) : { ok: false, text: "", lines: [] };
+
       const images = await Promise.all(
         scanSession.captures.map(async (c) => ({
           side: c.side,
           base64Jpeg: await imageToBase64ForAI(c.uri),
         }))
       );
-      const result = await identifyCollectible({ categoryHint: categoryHint ?? undefined, images });
+      const cloudResult = await identifyCollectible({ categoryHint: categoryHint ?? undefined, images });
+
+      // Cloud AI (real visual identification) wins when it's available and
+      // configured. Otherwise, fall back to whatever text the on-device OCR
+      // could actually read off the item — better than a dead end, but
+      // explicitly tagged "offline" so the confirm screen is honest about
+      // where these fields came from.
+      const result =
+        cloudResult.ok || !offlineText.ok || offlineText.lines.length === 0
+          ? cloudResult
+          : buildOfflineIdentification(categoryHint ?? undefined, offlineText.text);
+
       scanSession.setIdentification(result);
       navigation.replace("IdentificationResult");
     } finally {

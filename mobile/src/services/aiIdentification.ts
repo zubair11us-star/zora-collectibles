@@ -16,6 +16,9 @@ export interface IdentifyResponse {
   possibleMatches: PossibleMatch[];
   rawText?: string;
   error?: string;
+  /** "offline" marks a result built from on-device OCR + regex rather than
+   * a real cloud AI call — absent/"cloud" means the normal Claude path. */
+  source?: "cloud" | "offline";
 }
 
 export interface IdentifyImage {

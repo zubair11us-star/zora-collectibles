@@ -62,7 +62,9 @@ export function IdentificationResultScreen() {
           </View>
         ) : (
           <>
-            <Text style={[typography.label, { color: colors.textMuted }]}>AI IDENTIFICATION</Text>
+            <Text style={[typography.label, { color: colors.textMuted }]}>
+              {result.source === "offline" ? "OFFLINE TEXT SCAN" : "AI IDENTIFICATION"}
+            </Text>
             <Text style={[typography.display, { color: colors.textPrimary, fontSize: 24, marginBottom: spacing.sm }]}>
               {(result.fields.name as string) ?? "Unidentified Item"}
             </Text>
@@ -73,10 +75,25 @@ export function IdentificationResultScreen() {
               </Text>
             </View>
 
-            <View style={{ marginBottom: spacing.md }}>
-              <ConfidenceBadge confidence={result.confidence} />
-            </View>
-            {result.confidence < 70 && <LowConfidenceWarning />}
+            {result.source === "offline" ? (
+              <View style={[styles.errorBox, { backgroundColor: colors.info + "18", borderColor: colors.info, marginBottom: spacing.md }]}>
+                <Text style={{ color: colors.info, fontWeight: "700", marginBottom: spacing.xs }}>
+                  Read from text on the item, offline
+                </Text>
+                <Text style={{ color: colors.textSecondary, fontSize: 13 }}>
+                  No cloud AI was used — these fields came from on-device text recognition only (year, card/catalog
+                  number, denomination, serial number, where printed and legible). Review and fill in the rest
+                  yourself.
+                </Text>
+              </View>
+            ) : (
+              <>
+                <View style={{ marginBottom: spacing.md }}>
+                  <ConfidenceBadge confidence={result.confidence} />
+                </View>
+                {result.confidence < 70 && <LowConfidenceWarning />}
+              </>
+            )}
 
             {result.possibleMatches.length > 0 && (
               <View style={{ marginTop: spacing.lg }}>
