@@ -11,6 +11,8 @@ import { Button } from "@/components/Button";
 import { SelectField, TextField } from "@/components/FormField";
 import { ConfidenceBadge, LowConfidenceWarning } from "@/components/ConfidenceBadge";
 import { CollapsibleSection } from "@/components/CollapsibleSection";
+import { PriceLookupSheet } from "@/components/PriceLookupSheet";
+import { PriceLookupRequest } from "@/services/priceLookupService";
 import {
   CreateItemInput,
   createItem,
@@ -141,6 +143,7 @@ export function ItemEditScreen() {
   const [previousCurrentValue, setPreviousCurrentValue] = useState<number | null>(null);
   const [saving, setSaving] = useState(false);
   const [existingPhotoPaths, setExistingPhotoPaths] = useState<string[]>([]);
+  const [priceLookupQuery, setPriceLookupQuery] = useState<PriceLookupRequest | null>(null);
 
   const identification = scanSession.identification;
 
@@ -545,6 +548,22 @@ export function ItemEditScreen() {
               <SelectField label="Value Currency" value={common.currentValueCurrency} options={[...SUPPORTED_CURRENCIES]} onChange={setCommonField("currentValueCurrency")} />
             </View>
           </View>
+          <Button
+            label="Look Up Reference Price"
+            variant="secondary"
+            icon="search-outline"
+            onPress={() =>
+              setPriceLookupQuery({
+                name: common.name.trim(),
+                categoryName: CATEGORY_META[categoryKey].name,
+                year: common.year ? Number(common.year) : undefined,
+                setName: common.setName || undefined,
+                country: common.country || undefined,
+                grade: common.grade || undefined,
+              })
+            }
+            disabled={!common.name.trim()}
+          />
         </CollapsibleSection>
 
         <CollapsibleSection title="Storage Location" icon="location-outline">
@@ -607,6 +626,12 @@ export function ItemEditScreen() {
           <Button label={saving ? "Saving…" : "Confirm & Save"} onPress={handleSave} loading={saving} fullWidth />
         </View>
       </ScrollView>
+
+      <PriceLookupSheet
+        visible={priceLookupQuery !== null}
+        onClose={() => setPriceLookupQuery(null)}
+        query={priceLookupQuery}
+      />
     </SafeAreaView>
   );
 }

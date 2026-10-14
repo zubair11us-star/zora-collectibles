@@ -4,6 +4,7 @@ import cors from "cors";
 
 import { identifyRouter } from "./routes/identify";
 import { ocrReceiptRouter } from "./routes/ocrReceipt";
+import { lookupPriceRouter } from "./routes/lookupPrice";
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.get("/health", (_req, res) => {
 
 app.use("/identify", identifyRouter);
 app.use("/ocr-receipt", ocrReceiptRouter);
+app.use("/lookup-price", lookupPriceRouter);
 
 app.use((err: unknown, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
   console.error("[unhandled]", err);
@@ -28,5 +30,8 @@ app.listen(port, () => {
   console.log(`Zura AI proxy listening on http://0.0.0.0:${port}`);
   if (!process.env.ANTHROPIC_API_KEY) {
     console.warn("WARNING: ANTHROPIC_API_KEY is not set. /identify will fail until it's configured in .env.");
+  }
+  if (!process.env.GOOGLE_API_KEY || !process.env.GOOGLE_SEARCH_ENGINE_ID) {
+    console.warn("WARNING: GOOGLE_API_KEY/GOOGLE_SEARCH_ENGINE_ID not set. /lookup-price will fail until configured in .env.");
   }
 });
