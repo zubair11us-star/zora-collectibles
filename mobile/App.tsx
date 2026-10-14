@@ -69,7 +69,7 @@ export default function App() {
     return (
       <GestureHandlerRootView style={styles.flexFill}>
         <View style={styles.center}>
-          <ActivityIndicator size="large" color="#6366F1" />
+          <ActivityIndicator size="large" color="#2F8EFF" />
         </View>
       </GestureHandlerRootView>
     );
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#0F172A",
+    backgroundColor: "#0A1220",
     padding: 24,
   },
   errorTitle: {

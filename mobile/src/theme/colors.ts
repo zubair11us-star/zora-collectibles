@@ -1,21 +1,27 @@
 export const palette = {
-  indigo: "#6366F1",
-  indigoDark: "#4F46E5",
+  // Primary accent — bright azure blue (the "A" logo's crystal blue)
+  azure: "#2F8EFF",
+  azureDeep: "#1D5FD1",
+  azureBright: "#5FACFF",
+  // Secondary accent — warm gold (the logo's swoosh/star)
+  gold: "#F5A623",
+  goldBright: "#FFC74D",
   emerald: "#22C55E",
-  amber: "#F59E0B",
-  rose: "#F43F5E",
-  sky: "#0EA5E9",
-  slate50: "#F8FAFC",
-  slate100: "#F1F5F9",
-  slate200: "#E2E8F0",
-  slate300: "#CBD5E1",
-  slate400: "#94A3B8",
-  slate500: "#64748B",
-  slate600: "#475569",
-  slate700: "#334155",
-  slate800: "#1E293B",
-  slate900: "#0F172A",
-  slate950: "#0B1120",
+  rose: "#F2495C",
+  sky: "#38BDF8",
+  // Deep navy neutrals — the reference app's near-black card backgrounds
+  navy950: "#060B14",
+  navy900: "#0A1220",
+  navy850: "#0D1826",
+  navy800: "#11213A",
+  navy700: "#16304F",
+  navy600: "#223E63",
+  slate50: "#F7F9FC",
+  slate100: "#EDF1F8",
+  slate200: "#DCE4F0",
+  slate300: "#AEBBD4",
+  slate400: "#7E8EAD",
+  slate500: "#5A6B8C",
   white: "#FFFFFF",
 };
 
@@ -29,6 +35,7 @@ export interface ThemeColors {
   textMuted: string;
   accent: string;
   accentAlt: string;
+  gold: string;
   success: string;
   warning: string;
   danger: string;
@@ -41,31 +48,33 @@ export const lightColors: ThemeColors = {
   surface: palette.white,
   surfaceAlt: palette.slate100,
   border: palette.slate200,
-  textPrimary: palette.slate900,
-  textSecondary: palette.slate600,
+  textPrimary: "#0E1626",
+  textSecondary: palette.slate500,
   textMuted: palette.slate400,
-  accent: palette.indigo,
-  accentAlt: palette.indigoDark,
+  accent: palette.azure,
+  accentAlt: palette.azureDeep,
+  gold: "#C9820A",
   success: palette.emerald,
-  warning: palette.amber,
+  warning: palette.gold,
   danger: palette.rose,
   info: palette.sky,
   tabBarBackground: palette.white,
 };
 
 export const darkColors: ThemeColors = {
-  background: palette.slate950,
-  surface: palette.slate900,
-  surfaceAlt: palette.slate800,
-  border: palette.slate700,
+  background: palette.navy900,
+  surface: palette.navy850,
+  surfaceAlt: palette.navy800,
+  border: palette.navy700,
   textPrimary: palette.slate50,
   textSecondary: palette.slate300,
-  textMuted: palette.slate500,
-  accent: palette.indigo,
-  accentAlt: "#818CF8",
+  textMuted: palette.slate400,
+  accent: palette.azure,
+  accentAlt: palette.azureBright,
+  gold: palette.goldBright,
   success: palette.emerald,
-  warning: palette.amber,
+  warning: palette.gold,
   danger: palette.rose,
   info: palette.sky,
-  tabBarBackground: palette.slate900,
+  tabBarBackground: palette.navy950,
 };

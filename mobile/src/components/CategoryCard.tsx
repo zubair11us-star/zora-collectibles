@@ -4,7 +4,7 @@ import * as Haptics from "expo-haptics";
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
 
 import { useThemeMode } from "@/theme/ThemeProvider";
-import { radius, spacing, typography } from "@/theme/typography";
+import { cardElevation, radius, spacing, typography } from "@/theme/typography";
 import { formatMoney } from "@/utils/currency";
 import { CategoryIcon } from "./CategoryIcon";
 import { CATEGORY_META } from "@/types/categoryFields";
@@ -38,7 +38,13 @@ export function CategoryCard({ categoryKey, name, itemCount, totalValue, currenc
         scale.value = withSpring(1, { damping: 15, stiffness: 300 });
       }}
     >
-      <Animated.View style={[styles.card, { backgroundColor: colors.surface, borderColor: colors.border }, animatedStyle]}>
+      <Animated.View
+        style={[
+          styles.card,
+          { backgroundColor: colors.surface, borderColor: colors.border, shadowColor: accent },
+          animatedStyle,
+        ]}
+      >
         <View style={[styles.iconBadge, { backgroundColor: accent + "1F" }]}>
           <CategoryIcon categoryKey={categoryKey} size={20} color={accent} />
         </View>
@@ -62,6 +68,7 @@ const styles = StyleSheet.create({
     borderRadius: radius.lg,
     borderWidth: 1,
     padding: spacing.md,
+    ...cardElevation,
   },
   iconBadge: {
     width: 36,

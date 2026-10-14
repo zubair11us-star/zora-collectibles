@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
 import { useThemeMode } from "@/theme/ThemeProvider";
-import { radius, spacing, typography } from "@/theme/typography";
+import { cardElevation, radius, spacing, typography } from "@/theme/typography";
 
 interface StatTileProps {
   label: string;
@@ -17,7 +17,12 @@ export function StatTile({ label, value, hint, tone = "default" }: StatTileProps
     tone === "success" ? colors.success : tone === "danger" ? colors.danger : tone === "warning" ? colors.warning : colors.textPrimary;
 
   return (
-    <View style={[styles.card, { backgroundColor: colors.surface, borderColor: colors.border }]}>
+    <View
+      style={[
+        styles.card,
+        { backgroundColor: colors.surface, borderColor: colors.border, shadowColor: colors.accent },
+      ]}
+    >
       <Text style={[styles.label, { color: colors.textMuted }]}>{label}</Text>
       <Text style={[styles.value, { color: toneColor }]} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.75}>
         {value}
@@ -34,6 +39,7 @@ const styles = StyleSheet.create({
     borderRadius: radius.lg,
     borderWidth: 1,
     padding: spacing.lg,
+    ...cardElevation,
   },
   label: { ...typography.label, textTransform: "uppercase", marginBottom: spacing.xs },
   value: { ...typography.display, fontSize: 22 },

@@ -41,8 +41,13 @@ function ScanButton() {
   const { colors } = useThemeMode();
   return (
     <View style={styles.scanButtonWrap}>
-      <View style={[styles.scanButton, { backgroundColor: colors.accent }]}>
-        <Ionicons name="add" size={30} color="#FFFFFF" />
+      <View
+        style={[
+          styles.scanButton,
+          { backgroundColor: colors.accent, borderColor: colors.gold, shadowColor: colors.accent },
+        ]}
+      >
+        <Ionicons name="camera" size={26} color="#FFFFFF" />
       </View>
     </View>
   );
@@ -126,15 +131,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   scanButton: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    borderWidth: 2,
     alignItems: "center",
     justifyContent: "center",
-    shadowColor: "#000",
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
+    shadowOpacity: 0.55,
+    shadowRadius: 12,
     shadowOffset: { width: 0, height: 4 },
-    elevation: 6,
+    elevation: 8,
   },
 });

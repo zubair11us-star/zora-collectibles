@@ -24,3 +24,14 @@ export const spacing = {
   xl: 24,
   xxl: 32,
 };
+
+// Subtle floating-card shadow used across StatTile/ItemCard/CategoryCard
+// for the elevated, glowing look. shadowColor is set per-theme by callers
+// (black in light mode, the accent color in dark mode reads better), so
+// this only carries the shape values.
+export const cardElevation = {
+  shadowOpacity: 0.25,
+  shadowRadius: 12,
+  shadowOffset: { width: 0, height: 6 },
+  elevation: 4,
+};

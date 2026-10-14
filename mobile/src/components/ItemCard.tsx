@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import * as Haptics from "expo-haptics";
 
 import { useThemeMode } from "@/theme/ThemeProvider";
-import { radius, spacing, typography } from "@/theme/typography";
+import { cardElevation, radius, spacing, typography } from "@/theme/typography";
 import { formatMoney } from "@/utils/currency";
 import { ItemListRow } from "@/db/repositories/itemsRepo";
 import { SyncedImage } from "./SyncedImage";
@@ -72,34 +72,40 @@ export function ItemCard({ item, mode, onPress: onPressProp }: ItemCardProps) {
 
   const size = mode === "gallery" ? styles.galleryCard : styles.gridCard;
 
+  // The shadow and the overflow:hidden rounded-image clipping can't live on
+  // the same view (overflow:hidden on iOS also clips the shadow), so the
+  // shadow sits on this outer wrapper and the clipping stays on the
+  // Pressable inside it.
   return (
-    <Pressable
-      onPress={onPress}
-      style={({ pressed }) => [
-        size,
-        styles.card,
-        { backgroundColor: colors.surface, borderColor: colors.border, opacity: pressed ? 0.85 : 1 },
-      ]}
-    >
-      <View style={mode === "gallery" ? styles.galleryImageWrap : styles.gridImageWrap}>
-        <Thumb />
-      </View>
-      {mode === "grid" && (
-        <View style={styles.gridBody}>
-          <Text style={[typography.bodyBold, { color: colors.textPrimary }]} numberOfLines={1}>
-            {item.name}
-          </Text>
-          <Text style={[typography.caption, { color: colors.textMuted }]} numberOfLines={1}>
-            {item.category.name}
-          </Text>
-          <Text style={[typography.bodyBold, { color: colors.accent, marginTop: 2 }]}>{valueText}</Text>
+    <View style={[size, { shadowColor: colors.accent }, styles.shadowWrap]}>
+      <Pressable
+        onPress={onPress}
+        style={({ pressed }) => [
+          styles.card,
+          { backgroundColor: colors.surface, borderColor: colors.border, opacity: pressed ? 0.85 : 1 },
+        ]}
+      >
+        <View style={mode === "gallery" ? styles.galleryImageWrap : styles.gridImageWrap}>
+          <Thumb />
         </View>
-      )}
-    </Pressable>
+        {mode === "grid" && (
+          <View style={styles.gridBody}>
+            <Text style={[typography.bodyBold, { color: colors.textPrimary }]} numberOfLines={1}>
+              {item.name}
+            </Text>
+            <Text style={[typography.caption, { color: colors.textMuted }]} numberOfLines={1}>
+              {item.category.name}
+            </Text>
+            <Text style={[typography.bodyBold, { color: colors.accent, marginTop: 2 }]}>{valueText}</Text>
+          </View>
+        )}
+      </Pressable>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  shadowWrap: { borderRadius: radius.lg, ...cardElevation },
   card: { borderRadius: radius.lg, borderWidth: 1, overflow: "hidden" },
   gridCard: { width: "48%" },
   galleryCard: { width: "100%", marginBottom: spacing.md },
