@@ -125,6 +125,9 @@ function detectLineItems(lines: string[]): ReceiptLineItem[] {
   const items: ReceiptLineItem[] = [];
   for (const line of lines) {
     if (TOTAL_LABEL_RE.test(line) || SUBTOTAL_LABEL_RE.test(line) || TAX_LABEL_RE.test(line)) continue;
+    // A date line (e.g. "Date: 2026-03-15") isn't a line item — without this,
+    // the trailing "15" or similar reads as a price via MONEY_RE.
+    if (DATE_ISO_RE.test(line) || DATE_SLASH_RE.test(line) || DATE_TEXT_RE.test(line) || DATE_TEXT_RE2.test(line)) continue;
     const priceMatch = line.match(MONEY_RE);
     if (!priceMatch) continue;
     // A plausible line item: has a price AND some letters before it
