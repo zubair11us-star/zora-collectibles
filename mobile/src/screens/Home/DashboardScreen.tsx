@@ -273,15 +273,19 @@ function HighlightCard({
   const { colors } = useThemeMode();
   const valueColor = tone === "success" ? colors.success : tone === "danger" ? colors.danger : colors.accent;
   return (
-    <Pressable
-      onPress={onPress}
-      style={[styles.highlightCard, { backgroundColor: colors.surface, borderColor: colors.border }]}
-    >
-      <Text style={[typography.label, { color: colors.textMuted }]}>{label.toUpperCase()}</Text>
-      <Text style={[typography.bodyBold, { color: colors.textPrimary, marginTop: spacing.xs }]} numberOfLines={1}>
-        {title}
-      </Text>
-      <Text style={[typography.bodyBold, { color: valueColor, marginTop: 2 }]}>{value}</Text>
+    <Pressable onPress={onPress}>
+      <LinearGradient
+        colors={[valueColor + "26", colors.surface]}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={[styles.highlightCard, { borderColor: colors.border }]}
+      >
+        <Text style={[typography.label, { color: colors.textMuted }]}>{label.toUpperCase()}</Text>
+        <Text style={[typography.bodyBold, { color: colors.textPrimary, marginTop: spacing.xs }]} numberOfLines={1}>
+          {title}
+        </Text>
+        <Text style={[typography.bodyBold, { color: valueColor, marginTop: 2 }]}>{value}</Text>
+      </LinearGradient>
     </Pressable>
   );
 }

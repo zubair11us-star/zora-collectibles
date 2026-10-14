@@ -4,6 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
 import type { ComponentProps } from "react";
 
 import { useThemeMode } from "@/theme/ThemeProvider";
@@ -39,9 +40,14 @@ export function MoreScreen() {
               { backgroundColor: colors.surface, borderColor: colors.border, opacity: pressed ? 0.85 : 1 },
             ]}
           >
-            <View style={[styles.iconBadge, { backgroundColor: colors.accent + "1A" }]}>
+            <LinearGradient
+              colors={[colors.accent + "33", colors.accent + "14"]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={styles.iconBadge}
+            >
               <Ionicons name={item.icon} size={20} color={colors.accent} />
-            </View>
+            </LinearGradient>
             <View style={{ flex: 1 }}>
               <Text style={[typography.bodyBold, { color: colors.textPrimary }]}>{item.title}</Text>
               <Text style={[typography.caption, { color: colors.textMuted }]}>{item.subtitle}</Text>

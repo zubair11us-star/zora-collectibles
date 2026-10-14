@@ -4,6 +4,7 @@ import { useFocusEffect, useNavigation, useRoute, RouteProp } from "@react-navig
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
 import type { ComponentProps } from "react";
 
 import { useThemeMode } from "@/theme/ThemeProvider";
@@ -93,12 +94,21 @@ export function CollectionListScreen() {
               accessibilityRole="button"
               accessibilityLabel={`${mode.charAt(0).toUpperCase()}${mode.slice(1)} view`}
               accessibilityState={{ selected: viewMode === mode }}
-              style={[
-                styles.modeBtn,
-                { backgroundColor: viewMode === mode ? colors.accent : colors.surfaceAlt },
-              ]}
             >
-              <Ionicons name={VIEW_MODE_ICONS[mode]} size={16} color={viewMode === mode ? "#fff" : colors.textSecondary} />
+              {viewMode === mode ? (
+                <LinearGradient
+                  colors={[colors.accentAlt, colors.accent]}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 1 }}
+                  style={styles.modeBtn}
+                >
+                  <Ionicons name={VIEW_MODE_ICONS[mode]} size={16} color="#fff" />
+                </LinearGradient>
+              ) : (
+                <View style={[styles.modeBtn, { backgroundColor: colors.surfaceAlt }]}>
+                  <Ionicons name={VIEW_MODE_ICONS[mode]} size={16} color={colors.textSecondary} />
+                </View>
+              )}
             </Pressable>
           ))}
         </View>
