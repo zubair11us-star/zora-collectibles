@@ -10,6 +10,7 @@ import { spacing, typography } from "@/theme/typography";
 import { StatTile } from "@/components/StatTile";
 import { CategoryCard } from "@/components/CategoryCard";
 import { EmptyState } from "@/components/EmptyState";
+import { Button } from "@/components/Button";
 import { DashboardSkeleton } from "@/components/Skeleton";
 import {
   CategoryCountBarChart,
@@ -33,10 +34,17 @@ export function DashboardScreen() {
   const settings = useSettingsStore((s) => s.settings);
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [refreshing, setRefreshing] = useState(false);
+  const [loadError, setLoadError] = useState<string | null>(null);
 
   const load = useCallback(async () => {
-    const data = await getDashboardStats();
-    setStats(data);
+    try {
+      const data = await getDashboardStats();
+      setStats(data);
+      setLoadError(null);
+    } catch (e) {
+      console.error("Failed to load dashboard stats", e);
+      setLoadError(e instanceof Error ? e.message : "Couldn't load your collection stats.");
+    }
   }, []);
 
   useFocusEffect(
@@ -54,6 +62,17 @@ export function DashboardScreen() {
   const goToCategory = (categoryKey: CategoryKey) => {
     navigation.navigate("Tabs", { screen: "Collection", params: { categoryKey } });
   };
+
+  if (loadError && !stats) {
+    return (
+      <SafeAreaView style={[styles.flex, { backgroundColor: colors.background }]} edges={["top"]}>
+        <View style={styles.center}>
+          <EmptyState icon="alert-circle-outline" title="Couldn't load your dashboard" body={loadError} />
+          <Button label="Try Again" onPress={load} />
+        </View>
+      </SafeAreaView>
+    );
+  }
 
   if (!stats) {
     return (
@@ -196,7 +215,12 @@ export function DashboardScreen() {
                   Latest Purchases
                 </Text>
                 {stats.latestPurchases.map((t) => (
-                  <RecentTxRow key={t.id} tx={t} onPress={() => navigation.navigate("ItemDetails", { itemId: t.itemId })} />
+                  <RecentTxRow
+                    key={t.id}
+                    tx={t}
+                    fallbackCurrency={stats.baseCurrency}
+                    onPress={() => navigation.navigate("ItemDetails", { itemId: t.itemId })}
+                  />
                 ))}
               </View>
             )}
@@ -206,7 +230,12 @@ export function DashboardScreen() {
                   Latest Sales
                 </Text>
                 {stats.latestSales.map((t) => (
-                  <RecentTxRow key={t.id} tx={t} onPress={() => navigation.navigate("ItemDetails", { itemId: t.itemId })} />
+                  <RecentTxRow
+                    key={t.id}
+                    tx={t}
+                    fallbackCurrency={stats.baseCurrency}
+                    onPress={() => navigation.navigate("ItemDetails", { itemId: t.itemId })}
+                  />
                 ))}
               </View>
             )}
@@ -248,9 +277,11 @@ function HighlightCard({
 
 function RecentTxRow({
   tx,
+  fallbackCurrency,
   onPress,
 }: {
   tx: { itemName: string; date: string; amount: number | null; currency: string | null };
+  fallbackCurrency: string;
   onPress: () => void;
 }) {
   const { colors } = useThemeMode();
@@ -263,7 +294,7 @@ function RecentTxRow({
         {tx.itemName}
       </Text>
       <Text style={{ color: colors.textMuted, fontSize: 12 }}>
-        {tx.amount != null ? formatMoney(tx.amount, tx.currency ?? "AED") : "—"}
+        {tx.amount != null ? formatMoney(tx.amount, tx.currency ?? fallbackCurrency) : "—"}
       </Text>
     </Pressable>
   );

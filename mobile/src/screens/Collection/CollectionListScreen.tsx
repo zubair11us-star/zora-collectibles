@@ -45,6 +45,7 @@ export function CollectionListScreen() {
 
   const [items, setItems] = useState<ItemListRow[]>([]);
   const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   const [filter, setFilter] = useState<ItemListFilter>({});
   const [sortField, setSortField] = useState<ItemSortField>("createdAt");
   const [viewMode, setViewMode] = useState<ViewMode>("grid");
@@ -56,14 +57,21 @@ export function CollectionListScreen() {
     }
   }, [route.params?.categoryKey]);
 
+  // Debounce the search query so each keystroke doesn't hit the database —
+  // the input itself still updates instantly, only the query is delayed.
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedSearch(search), 300);
+    return () => clearTimeout(timer);
+  }, [search]);
+
   const load = useCallback(async () => {
     const rows = await listItems({
-      filter: { ...filter, searchText: search || undefined },
+      filter: { ...filter, searchText: debouncedSearch || undefined },
       sortField,
       sortDir: sortField === "name" ? "asc" : "desc",
     });
     setItems(rows);
-  }, [filter, search, sortField]);
+  }, [filter, debouncedSearch, sortField]);
 
   useFocusEffect(
     useCallback(() => {
@@ -82,6 +90,9 @@ export function CollectionListScreen() {
             <Pressable
               key={mode}
               onPress={() => setViewMode(mode)}
+              accessibilityRole="button"
+              accessibilityLabel={`${mode.charAt(0).toUpperCase()}${mode.slice(1)} view`}
+              accessibilityState={{ selected: viewMode === mode }}
               style={[
                 styles.modeBtn,
                 { backgroundColor: viewMode === mode ? colors.accent : colors.surfaceAlt },
@@ -103,6 +114,8 @@ export function CollectionListScreen() {
         />
         <Pressable
           onPress={() => setFilterVisible(true)}
+          accessibilityRole="button"
+          accessibilityLabel={activeFilterCount > 0 ? `Filters, ${activeFilterCount} active` : "Filters"}
           style={[styles.filterBtn, { backgroundColor: colors.surfaceAlt, borderColor: colors.border }]}
         >
           <Ionicons name="options-outline" size={20} color={colors.textPrimary} />

@@ -26,6 +26,7 @@ import { listLocations, listStorageBoxes } from "@/db/repositories/locationsRepo
 import { deleteWishlistEntry } from "@/db/repositories/wishlistRepo";
 import { persistCollectibleImage } from "@/services/imageService";
 import { useScanSessionStore } from "@/state/useScanSessionStore";
+import { useSettingsStore } from "@/state/useSettingsStore";
 import { CATEGORY_META, CATEGORY_ORDER } from "@/types/categoryFields";
 import {
   CategoryKey,
@@ -82,7 +83,9 @@ type CommonFormState = {
   notes: string;
 };
 
-const BLANK_COMMON: CommonFormState = {
+// Currency fields are filled in per-instance from the user's base-currency
+// setting (see blankCommon() below) rather than hardcoded here.
+const BLANK_COMMON_BASE: Omit<CommonFormState, "currency" | "purchaseCurrency" | "currentValueCurrency"> = {
   name: "",
   description: "",
   brand: "",
@@ -95,31 +98,33 @@ const BLANK_COMMON: CommonFormState = {
   catalogNumber: "",
   cardNumber: "",
   denomination: "",
-  currency: "AED",
   serialNumber: "",
   condition: "unspecified",
   grade: "",
   quantity: "1",
   purchaseDate: "",
   purchasePrice: "",
-  purchaseCurrency: "AED",
   currentValue: "",
-  currentValueCurrency: "AED",
   notes: "",
 };
+
+function blankCommon(baseCurrency: string): CommonFormState {
+  return { ...BLANK_COMMON_BASE, currency: baseCurrency, purchaseCurrency: baseCurrency, currentValueCurrency: baseCurrency };
+}
 
 export function ItemEditScreen() {
   const { colors } = useThemeMode();
   const navigation = useNavigation<Nav>();
   const route = useRoute<EditRoute>();
   const scanSession = useScanSessionStore();
+  const settings = useSettingsStore((s) => s.settings);
 
   const isEditingExisting = !!route.params?.itemId;
 
   const [categoryKey, setCategoryKey] = useState<CategoryKey>(
     route.params?.categoryHint ?? scanSession.identification?.category ?? "other"
   );
-  const [common, setCommon] = useState<CommonFormState>(BLANK_COMMON);
+  const [common, setCommon] = useState<CommonFormState>(() => blankCommon(settings.baseCurrency));
   const [attributes, setAttributes] = useState<Record<string, string>>({});
   const [locations, setLocations] = useState<Location[]>([]);
   const [boxes, setBoxes] = useState<StorageBox[]>([]);
@@ -161,16 +166,16 @@ export function ItemEditScreen() {
           catalogNumber: details.catalogNumber ?? "",
           cardNumber: details.cardNumber ?? "",
           denomination: details.denomination ?? "",
-          currency: details.currency ?? "AED",
+          currency: details.currency ?? settings.baseCurrency,
           serialNumber: details.serialNumber ?? "",
           condition: details.condition,
           grade: details.grade ?? "",
           quantity: String(details.quantity),
           purchaseDate: details.purchaseDate ?? "",
           purchasePrice: details.purchasePrice != null ? String(details.purchasePrice) : "",
-          purchaseCurrency: details.purchaseCurrency ?? "AED",
+          purchaseCurrency: details.purchaseCurrency ?? settings.baseCurrency,
           currentValue: details.currentValue != null ? String(details.currentValue) : "",
-          currentValueCurrency: details.currentValueCurrency ?? "AED",
+          currentValueCurrency: details.currentValueCurrency ?? settings.baseCurrency,
           notes: details.notes ?? "",
         });
         setAttributes(details.attributes);
@@ -221,8 +226,34 @@ export function ItemEditScreen() {
   const setCommonField = (key: keyof CommonFormState) => (value: string) =>
     setCommon((c) => ({ ...c, [key]: value }));
 
+  // Parses a user-entered numeric field, or throws a field-named error. An
+  // empty string is a valid "not set" (returns undefined) — only a
+  // non-empty value that doesn't parse to a finite number is an error.
+  // decimal-pad keyboards don't block things like "1.2.3" or a lone "-",
+  // so Number(text) can silently produce NaN without this guard, which
+  // would otherwise get written straight into the database.
+  const parseNumberField = (value: string, label: string): number | undefined => {
+    if (!value.trim()) return undefined;
+    const n = Number(value);
+    if (!Number.isFinite(n)) throw new Error(`${label} must be a valid number.`);
+    return n;
+  };
+
   const validate = (): string | null => {
     if (!common.name.trim()) return "Item name is required.";
+    try {
+      parseNumberField(common.year, "Year");
+      const quantity = parseNumberField(common.quantity, "Quantity");
+      if (quantity !== undefined && (!Number.isInteger(quantity) || quantity < 1)) {
+        return "Quantity must be a whole number of 1 or more.";
+      }
+      parseNumberField(common.purchasePrice, "Purchase Price");
+      parseNumberField(common.currentValue, "Estimated Current Value");
+      parseNumberField(sellingPrice, "Selling Price");
+      parseNumberField(minPrice, "Minimum Price");
+    } catch (err) {
+      return err instanceof Error ? err.message : "One of the number fields is invalid.";
+    }
     return null;
   };
 
@@ -255,7 +286,7 @@ export function ItemEditScreen() {
           categoryKey,
           name: common.name,
           setName: common.setName || undefined,
-          year: common.year ? Number(common.year) : undefined,
+          year: parseNumberField(common.year, "Year"),
           cardNumber: common.cardNumber || undefined,
           catalogNumber: common.catalogNumber || undefined,
           serialNumber: common.serialNumber || undefined,
@@ -269,7 +300,7 @@ export function ItemEditScreen() {
             return;
           }
           if (action === "add_quantity") {
-            await incrementQuantity(duplicate.id, common.quantity ? Number(common.quantity) : 1);
+            await incrementQuantity(duplicate.id, parseNumberField(common.quantity, "Quantity") ?? 1);
             for (const capture of scanSession.captures) {
               const stored = await persistCollectibleImage(capture.uri, duplicate.id);
               await addPhoto({
@@ -296,7 +327,7 @@ export function ItemEditScreen() {
         brand: common.brand || undefined,
         country: common.country || undefined,
         manufacturer: common.manufacturer || undefined,
-        year: common.year ? Number(common.year) : undefined,
+        year: parseNumberField(common.year, "Year"),
         series: common.series || undefined,
         setName: common.setName || undefined,
         model: common.model || undefined,
@@ -307,11 +338,11 @@ export function ItemEditScreen() {
         serialNumber: common.serialNumber || undefined,
         condition: common.condition,
         grade: common.grade || undefined,
-        quantity: common.quantity ? Number(common.quantity) : 1,
+        quantity: parseNumberField(common.quantity, "Quantity") ?? 1,
         purchaseDate: common.purchaseDate || undefined,
-        purchasePrice: common.purchasePrice ? Number(common.purchasePrice) : undefined,
+        purchasePrice: parseNumberField(common.purchasePrice, "Purchase Price"),
         purchaseCurrency: common.purchaseCurrency || undefined,
-        currentValue: common.currentValue ? Number(common.currentValue) : undefined,
+        currentValue: parseNumberField(common.currentValue, "Estimated Current Value"),
         currentValueCurrency: common.currentValueCurrency || undefined,
         locationId: locationId ?? null,
         storageBoxId: storageBoxId ?? null,
@@ -321,7 +352,7 @@ export function ItemEditScreen() {
         aiConfidence: identification?.ok ? identification.confidence : undefined,
         notes: common.notes || undefined,
         saleStatus,
-        sellingPrice: sellingPrice ? Number(sellingPrice) : undefined,
+        sellingPrice: parseNumberField(sellingPrice, "Selling Price"),
         attributes: {
           ...attributes,
           [SALE_ATTR_MIN_PRICE]: minPrice,
@@ -339,7 +370,7 @@ export function ItemEditScreen() {
           await addValuation({
             itemId,
             value: newValue,
-            currency: input.currentValueCurrency ?? "AED",
+            currency: input.currentValueCurrency ?? settings.baseCurrency,
             source: "manual",
             updateItemCurrentValue: false,
           });

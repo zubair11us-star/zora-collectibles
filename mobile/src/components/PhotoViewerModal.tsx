@@ -41,7 +41,7 @@ export function PhotoViewerModal({ visible, photos, initialIndex, onClose }: Pho
         />
 
         <SafeAreaView style={styles.overlay} pointerEvents="box-none">
-          <Pressable onPress={onClose} style={styles.closeBtn}>
+          <Pressable onPress={onClose} accessibilityRole="button" accessibilityLabel="Close" style={styles.closeBtn}>
             <Ionicons name="close" size={24} color="#fff" />
           </Pressable>
           {photos.length > 1 && (

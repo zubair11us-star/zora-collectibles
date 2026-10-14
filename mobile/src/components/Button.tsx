@@ -52,6 +52,9 @@ export function Button({
     <Pressable
       disabled={disabled || loading}
       onPress={handlePress}
+      accessibilityRole="button"
+      accessibilityLabel={label}
+      accessibilityState={{ disabled: disabled || loading, busy: loading }}
       style={({ pressed }) => [
         styles.base,
         fullWidth && { width: "100%" },

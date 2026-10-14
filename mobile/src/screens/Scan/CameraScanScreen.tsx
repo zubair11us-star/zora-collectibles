@@ -88,7 +88,7 @@ export function CameraScanScreen() {
       <CameraView ref={cameraRef} style={styles.flex} facing="back">
         <SafeAreaView style={styles.overlay} edges={["top", "bottom"]}>
           <View style={styles.topBar}>
-            <Pressable onPress={() => navigation.goBack()} style={styles.closeBtn}>
+            <Pressable onPress={() => navigation.goBack()} accessibilityRole="button" accessibilityLabel="Close" style={styles.closeBtn}>
               <Ionicons name="close" size={22} color="#fff" />
             </Pressable>
             <Text style={styles.topBarTitle}>
@@ -114,7 +114,12 @@ export function CameraScanScreen() {
             )}
 
             {needsMoreCaptures ? (
-              <Pressable onPress={capture} style={[styles.shutter, { borderColor: "#fff" }]}>
+              <Pressable
+                onPress={capture}
+                accessibilityRole="button"
+                accessibilityLabel={`Capture ${currentSide} photo`}
+                style={[styles.shutter, { borderColor: "#fff" }]}
+              >
                 <View style={[styles.shutterInner, { backgroundColor: colors.accent }]} />
               </Pressable>
             ) : (
